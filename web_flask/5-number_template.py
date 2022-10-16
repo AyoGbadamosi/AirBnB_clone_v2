@@ -1,59 +1,48 @@
 #!/usr/bin/python3
 """
-flask model
+starts a Flask web application
 """
-from flask import Flask, render_template
 
+from flask import Flask, escape, render_template
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
-def hbnb():
-    """
-        route path
-    """
+def index():
+    """function to return Hello HBNB!"""
     return 'Hello HBNB!'
 
 
 @app.route('/hbnb', strict_slashes=False)
-def index():
-    """
-        /hbnb path
-    """
+def hello():
+    """ function to display HBNB"""
     return 'HBNB'
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def C_is(text):
-    """
-        C path
-    """
-    return 'C {:s}'.format(text.replace('_', ' '))
+def ctext(text):
+    """ function to display C + value of text """
+    text = text.replace("_", " ")
+    return 'C {}'.format(escape(text))
 
 
-@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python(text):
-    """
-        python path
-    """
-    return 'Python {:s}'.format(text.replace('_', ' '), strict_slashes=False)
+def pytext(text="is_cool"):
+    """ function to display Python + value of text """
+    text = text.replace("_", " ")
+    return 'Python {}'.format(escape(text))
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
-def number(n):
-    """
-        number path
-    """
-    return "{} is a number".format(n)
+def num(n):
+    """ function to display integers """
+    return '{} is a number'.format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
-def number_template(n):
-    """
-        template path
-    """
-    return render_template('5-number.html', n=n)
+def numberhtml(n):
+    return render_template('5-number.html', num=n)
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='5000')
